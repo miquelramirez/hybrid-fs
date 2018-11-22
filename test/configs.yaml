@@ -1,0 +1,55 @@
+
+
+domain_features:
+  blocks:
+    functions: false
+    integers: false
+
+  counters-fn:
+    functions: true
+    integers: true
+
+  counters-strips-ex:
+    functions: false
+    integers: true
+    existential: true
+
+  visitall-sat11-strips:
+    functions: false
+    integers: false
+
+  gripper:
+    functions: false
+    integers: false
+
+  simple-sokoban-fn:
+    functions: true
+    integers: false
+
+  sokoban-sat08-strips:
+    functions: false
+    integers: false
+
+options:
+  successor_generation:
+    values:
+      naive:
+        exclude_features: []  # i.e. valid for all types of problems
+        exclude_drivers: []  # i.e. valid for all drivers
+      match_tree:
+        exclude_features: [functions, integers]
+
+  evaluator_t:
+    values:
+      adaptive:
+
+  bfws.rs:
+    include_drivers: [sbfws]
+
+    values:
+      none:
+      sim:
+        exclude_features: [functions]  # TODO Remove this restriction when the planner is ready for this
+
+#        self.manager.register_option("evaluator_t", "adaptive,generic")
+#        self.manager.register_option("goal_directed", "true,false")

@@ -1,0 +1,77 @@
+#
+# Basic gtest scons build script.
+#
+
+import os
+import fnmatch
+
+HOME = os.path.expanduser("~")
+tests = ['fstrips']
+
+def locate_source_files(base_dir, pattern):
+	matches = []
+	for root, dirnames, filenames in os.walk(base_dir):
+		for filename in fnmatch.filter(filenames, pattern):
+			matches.append(os.path.join(root, filename))
+	return matches
+
+
+gtest_dir = os.getenv('GTEST_DIR', None)
+if gtest_dir is None:
+	raise RuntimeError("You need to set up a 'GTEST_ROOT' environment variable to compile the tests")
+
+lapkt_dir = os.getenv('LAPKT', None)
+if lapkt_dir is None:
+	raise RuntimeError("You need to set up a 'LAPKT' environment variable to compile the tests")
+
+
+env = Environment()
+
+
+# GTest includes
+compiler_flags = '-std=c++0x -g -Wall -Wno-unused-variable -Wno-unused-parameter -Wextra -isystem ' + gtest_dir + '/include'
+
+
+include_paths = ['../src', './src', os.path.join(lapkt_dir, 'include')]
+env.Append( CPPPATH = [ os.path.abspath(p) for p in include_paths ] )
+env.Append( CXXFLAGS = compiler_flags.split(' ') )
+
+src_objs = [env.Object(s) for s in Glob('./src/main.cxx')]
+for t in tests:
+	src_objs += [ env.Object(s) for s in locate_source_files(os.path.join('./src', t), '*.cxx') ]
+
+
+# Note: order matters. If A depends on B, A should go _before_ B.
+
+# FS main library:
+env.Append(LIBS=['fs-debug'])
+
+# LAPKT lib dependencies:
+env.Append(LIBS=[
+	'liblapkt-novelty-debug.so',
+	'liblapkt-debug.so'
+])
+
+# Gtest
+env.Append(LIBS=[File(gtest_dir + '/libgtest.a')])
+
+# Other dependencies:
+env.Append(LIBS=['boost_program_options', 'boost_serialization', 'boost_system', 'boost_timer', 'boost_chrono', 'rt', 'boost_filesystem', 'm'])
+
+# Add necessary Gecode libraries
+gecode_libs = [
+	'gecodesearch',
+	'gecodeint',
+	'gecodekernel',
+	'gecodesupport'
+]
+env.Append( LIBS = gecode_libs + ['pthread'])
+
+
+lapkt2_lib_dir = os.path.join(lapkt_dir, 'lib')
+lib_paths = ['../lib', lapkt2_lib_dir, HOME + '/local/lib']
+env.Append( LIBPATH=[ os.path.abspath(p) for p in lib_paths ] )
+
+solver = env.Program('runtests.bin', src_objs)
+
+
