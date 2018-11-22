@@ -1,32 +1,69 @@
-# Prerequisites
-*.d
+
+# config files
+config.json
+
+# The main FS workspace
+workspace
+
+# Automatically-generated documentation
+# doc
+
+# Clang static analysis output
+analysis
+
+# Build files
+.build
+lib
 
 # Compiled Object files
 *.slo
 *.lo
 *.o
-*.obj
 
-# Precompiled Headers
-*.gch
-*.pch
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
 
 # Compiled Dynamic libraries
 *.so
-*.dylib
-*.dll
-
-# Fortran module files
-*.mod
-*.smod
 
 # Compiled Static libraries
 *.lai
 *.la
 *.a
-*.lib
 
 # Executables
-*.exe
+*.bin
+
+# Temporary files
+*.swp
+*.dblite
+*.log
+*.graph
+*.strips
+
+# Python bytecodes
+*.pyc
+
+# Temporary output files
 *.out
-*.app
+
+# Binaries
+*.bin
+
+# Codeblocks
+*.cbp
+
+# CMake & make files
+Makefile
+
+# Build temporary files
+experiments/*
+workspace/*
+
+# Singularity images
+*.img
+
+#
+*.pc
+variables.cache
