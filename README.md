@@ -28,9 +28,8 @@ and [[Francès and Geffner, 2016b]](#ref-frances-effective-2016).
 
 ## <a name="references"></a>Installation
 
-The easiest way to use the planner is by [manually compiling the planner source code](doc/installation.md).
-Alternatively, you can build and/or use a [ready-to-use image](doc/containers.md) in some of the containerization solutions
-that we support.
+The easiest way to use the planner is by [manually compiling the planner source code](doc/installation.md). 
+This procedure is complemented by the [instructions specific for setting up the hybrid module](doc/hybrid.md) of ```FS```.
 
 
 ## <a name="usage"></a>Usage
